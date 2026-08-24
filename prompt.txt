@@ -1,0 +1,315 @@
+Crie um aplicativo Android simples, independente e exclusivo para teste de performance e qualidade de detecção YOLO.
+
+OBJETIVO
+O aplicativo será usado para comparar o desempenho do modelo YOLO no Android utilizando imagens fornecidas pelo usuário.
+
+Não criar funcionalidades desnecessárias.
+Não implementar AccessibilityService.
+Não implementar OCR.
+Não implementar popup.
+Não implementar servidor/client.
+Não implementar login.
+Não implementar câmera neste primeiro momento.
+
+O objetivo é testar somente:
+- carregamento do modelo YOLO;
+- processamento de imagens;
+- qualidade das detecções;
+- tempo de inferência;
+- pré-processamento;
+- pós-processamento;
+- consumo aproximado de memória;
+- compatibilidade do pipeline Android com as imagens reais fornecidas.
+
+MODELO
+O modelo YOLO será fornecido posteriormente pelo usuário.
+
+O aplicativo deve permitir substituir facilmente o arquivo/modelo utilizado, sem modificar o código principal.
+
+IMAGENS
+O usuário fornecerá imagens reais, principalmente screenshots/capturas provenientes do Android/DriverMonitor.
+
+O aplicativo deve permitir selecionar uma ou várias imagens da galeria/armazenamento.
+
+Para cada imagem:
+
+1. carregar a imagem;
+2. mostrar a imagem original;
+3. executar exatamente o pipeline usado pelo YOLO Android;
+4. executar a inferência;
+5. desenhar as bounding boxes;
+6. mostrar classe;
+7. mostrar confidence;
+8. mostrar tempo de pré-processamento;
+9. mostrar tempo de inferência;
+10. mostrar tempo de pós-processamento;
+11. mostrar tempo total;
+12. mostrar resolução original;
+13. mostrar resolução efetivamente enviada ao modelo;
+14. mostrar quantidade de detecções.
+
+RESULTADO VISUAL
+
+A tela deve mostrar:
+
+Imagem original:
+- resolução;
+- tamanho em memória quando possível.
+
+Imagem processada:
+- bounding boxes;
+- nome da classe;
+- confidence.
+
+Informações:
+
+Preprocess: XX ms
+Inference: XX ms
+Postprocess: XX ms
+Total: XX ms
+Detections: X
+Input: XXXX x XXXX
+Model input: XXX x XXX
+
+PERFORMANCE
+
+Criar também um modo de teste repetitivo.
+
+O usuário poderá selecionar:
+
+1x
+5x
+10x
+20x
+50x
+
+Para cada repetição registrar:
+
+- tempo de preprocessamento;
+- tempo de inferência;
+- tempo de pós-processamento;
+- tempo total;
+- número de detecções.
+
+Ao final mostrar:
+
+- mínimo;
+- máximo;
+- média;
+- mediana;
+- desvio padrão, se simples de implementar;
+- FPS aproximado.
+
+IMPORTANTE:
+O primeiro processamento deve ser separado dos demais, porque o carregamento/inicialização do modelo pode distorcer a medição.
+
+Mostrar:
+
+Warm-up:
+X execuções
+
+Benchmark:
+X execuções
+
+MEMÓRIA
+
+Sempre que possível, registrar:
+
+- memória antes da inferência;
+- memória depois da inferência;
+- memória após liberar Bitmap/tensores;
+- maior memória observada.
+
+Não utilizar métodos perigosos ou não confiáveis para afirmar consumo exato de RAM do processo.
+
+Se a informação for apenas uma estimativa, deixar explicitamente indicado como estimativa.
+
+TESTE DE PIPELINE
+
+O aplicativo deve permitir configurar:
+
+- tamanho de entrada do modelo;
+- resize;
+- letterbox;
+- threshold de confidence;
+- IoU/NMS;
+- número máximo de detecções.
+
+Esses parâmetros devem ficar visíveis na interface.
+
+IMPORTANTE SOBRE IMAGENS
+
+Não salvar imagens intermediárias em arquivos apenas para executar a inferência.
+
+Sempre que possível:
+
+Bitmap
+→ pré-processamento em memória
+→ tensor/input
+→ YOLO
+→ resultado em memória
+→ desenho na imagem
+
+Evitar I/O desnecessário.
+
+Entretanto, não fazer otimizações prematuras que dificultem o diagnóstico.
+
+COMPARAÇÃO PC × ANDROID
+
+Esse é um dos principais objetivos do aplicativo.
+
+O usuário possui imagens que apresentam boa detecção no PC, mas detecção pior no Android.
+
+Portanto, o aplicativo deve preservar, sempre que possível, a imagem original sem alteração e informar claramente todas as transformações aplicadas antes da inferência.
+
+Mostrar:
+
+Original:
+WIDTH x HEIGHT
+
+Após resize:
+WIDTH x HEIGHT
+
+Após letterbox:
+WIDTH x HEIGHT
+
+Formato:
+RGB/RGBA/etc.
+
+Tipo de Bitmap:
+Bitmap.Config....
+
+Normalização:
+informar exatamente qual foi utilizada.
+
+Dessa forma será possível comparar posteriormente o pipeline Android com o pipeline utilizado no PC.
+
+LOG
+
+Criar um log simples em arquivo contendo:
+
+- modelo utilizado;
+- versão/configuração;
+- resolução da imagem;
+- parâmetros;
+- tempo de preprocessamento;
+- tempo de inferência;
+- tempo de pós-processamento;
+- total;
+- número de detecções;
+- confidence das detecções;
+- erros/exceções.
+
+O log deve ser usado para diagnóstico, mas não deve interferir significativamente no benchmark.
+
+Não gravar cada operação pequena em arquivo durante a inferência.
+
+INTERFACE
+
+Interface simples.
+
+Tela principal:
+
+[ Selecionar imagem ]
+
+[ Selecionar várias imagens ]
+
+[ Executar detecção ]
+
+[ Benchmark ]
+
+Imagem/resultados
+
+Informações da detecção
+
+Configurações:
+
+Model input
+Confidence
+IoU
+Warm-up
+Repetições
+
+Também incluir:
+
+[ Exportar resultado ]
+
+que deve permitir salvar:
+- imagem com bounding boxes;
+- log do teste.
+
+Não criar design sofisticado.
+
+ARQUITETURA
+
+Manter arquitetura simples e pequena.
+
+Separar pelo menos:
+
+- MainActivity
+- classe responsável pelo carregamento/inferência YOLO;
+- classe de pré-processamento;
+- classe de benchmark;
+- classe de resultados;
+- logger.
+
+Evitar frameworks e dependências desnecessárias.
+
+Não criar arquitetura complexa apenas para um aplicativo de teste.
+
+REQUISITOS DE DIAGNÓSTICO
+
+Toda exceção relacionada ao carregamento do modelo ou inferência deve ser registrada claramente.
+
+Exemplo:
+
+MODEL_LOAD_ERROR
+INFERENCE_ERROR
+PREPROCESS_ERROR
+POSTPROCESS_ERROR
+
+com stacktrace.
+
+Se o modelo não puder ser carregado, informar claramente o motivo.
+
+NÃO INVENTAR
+
+Se alguma informação necessária sobre o modelo YOLO não estiver disponível, não inventar.
+
+Primeiro identificar:
+- formato do modelo;
+- runtime esperado;
+- tamanho de entrada;
+- classes;
+- formato de saída.
+
+Se houver necessidade de escolher entre TensorFlow Lite, ONNX Runtime, NCNN ou outro runtime, explique a diferença e escolha uma implementação que possa ser alterada posteriormente.
+
+PRINCIPAL OBJETIVO DO TESTE
+
+Precisamos responder objetivamente:
+
+1. O modelo funciona corretamente no Android?
+2. A mesma imagem que funciona no PC funciona no Android?
+3. Qual é o tempo de inferência?
+4. Qual é o custo de preprocessamento?
+5. Qual é o custo de pós-processamento?
+6. Qual é o consumo aproximado de memória?
+7. Quantas detecções são encontradas?
+8. Qual é a confidence?
+9. O problema está no modelo ou no pipeline Android?
+10. O Android está recebendo uma imagem diferente daquela usada no PC?
+
+NÃO IMPLEMENTAR NADA RELACIONADO AO DRIVERMONITOR.
+
+Este aplicativo é exclusivamente uma bancada de testes para YOLO.
+
+Antes de começar a alterar arquivos, analise a estrutura do projeto existente e informe:
+- quais arquivos serão criados;
+- quais arquivos serão alterados;
+- qual runtime YOLO será utilizado;
+- como o modelo será carregado;
+- como as imagens serão processadas;
+- como será feita a medição.
+
+Se houver alguma informação essencial faltando, pergunte antes de implementar.
