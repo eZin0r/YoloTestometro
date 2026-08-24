@@ -1,19 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+    <LinearLayout android:orientation="vertical" android:padding="12dp"
+        android:layout_width="match_parent" android:layout_height="wrap_content">
+        <TextView android:id="@+id/title" android:text="YOLO Testômetro — TensorFlow Lite" android:textSize="20sp" android:textStyle="bold" android:layout_width="match_parent" android:layout_height="wrap_content" />
+        <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content">
+            <Button android:id="@+id/selectImage" android:text="Selecionar imagem" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" />
+            <Button android:id="@+id/selectImages" android:text="Várias" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" />
+        </LinearLayout>
+        <Button android:id="@+id/runDetection" android:text="Executar detecção" android:layout_width="match_parent" android:layout_height="wrap_content" />
+        <Button android:id="@+id/runBenchmark" android:text="Benchmark" android:layout_width="match_parent" android:layout_height="wrap_content" />
+        <ImageView android:id="@+id/imageOriginal" android:adjustViewBounds="true" android:scaleType="fitCenter" android:layout_width="match_parent" android:layout_height="wrap_content" />
+        <ImageView android:id="@+id/imageResult" android:adjustViewBounds="true" android:scaleType="fitCenter" android:layout_width="match_parent" android:layout_height="wrap_content" />
+        <TextView android:id="@+id/status" android:text="Modelo: model.tflite" android:textIsSelectable="true" android:layout_width="match_parent" android:layout_height="wrap_content" />
+        <EditText android:id="@+id/inputWidth" android:hint="Model input width" android:inputType="number" android:layout_width="match_parent" android:layout_height="wrap_content" />
+        <EditText android:id="@+id/inputHeight" android:hint="Model input height" android:inputType="number" android:layout_width="match_parent" android:layout_height="wrap_content" />
+        <EditText android:id="@+id/confidence" android:hint="Confidence (0.25)" android:inputType="numberDecimal" android:layout_width="match_parent" android:layout_height="wrap_content" />
+        <EditText android:id="@+id/iou" android:hint="IoU/NMS (0.45)" android:inputType="numberDecimal" android:layout_width="match_parent" android:layout_height="wrap_content" />
+        <EditText android:id="@+id/warmup" android:hint="Warm-up (1)" android:inputType="number" android:layout_width="match_parent" android:layout_height="wrap_content" />
+        <EditText android:id="@+id/repetitions" android:hint="Repetições (10)" android:inputType="number" android:layout_width="match_parent" android:layout_height="wrap_content" />
+        <EditText android:id="@+id/maxDetections" android:hint="Máx. detecções (100)" android:inputType="number" android:layout_width="match_parent" android:layout_height="wrap_content" />
+        <Button android:id="@+id/export" android:text="Exportar resultado" android:layout_width="match_parent" android:layout_height="wrap_content" />
+        <TextView android:id="@+id/details" android:textIsSelectable="true" android:layout_width="match_parent" android:layout_height="wrap_content" />
+    </LinearLayout>
+</ScrollView>
